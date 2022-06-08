@@ -44,6 +44,7 @@ public class TraitementLogImpl implements TraitementService{
     public ResponseEntity<TraitementLog> updateTraitementIssue(long id, TraitementLog traitementLog) {
         TraitementLog traitid=traitementLogRepo.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Traitement "+id+" not found"));
+        log.info(traitementLog.getIssue());
         traitid.setIssue(traitementLog.getIssue());
         return new ResponseEntity<>(traitementLogRepo.save(traitid),HttpStatus.OK);
     }

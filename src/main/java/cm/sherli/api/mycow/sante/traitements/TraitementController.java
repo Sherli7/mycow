@@ -1,5 +1,8 @@
 package cm.sherli.api.mycow.sante.traitements;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +10,7 @@ import java.util.Map;
 import cm.sherli.api.mycow.log.model.TraitementLog;
 import cm.sherli.api.mycow.log.services.TraitementLogImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -29,6 +33,7 @@ import cm.sherli.api.mycow.payload.response.MessageResponse;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/mycow")
 @RequiredArgsConstructor
+@Slf4j
 public class TraitementController {
 
 	private final TraitementRepo traitementRepo;
@@ -95,7 +100,7 @@ public class TraitementController {
 	}
 	
 	
-	@GetMapping("traitement/{id}")
+	@GetMapping("/traitement/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN') or hasRole('MODERATOR')")
 	public ResponseEntity<Traitement> getTraitementById(@PathVariable("id") Long id){
 		Traitement trait=traitementRepo.findById(id).orElseThrow(()-> new ResourceNotFoundException("No found treatment with id "+ id));	
@@ -130,7 +135,10 @@ public class TraitementController {
 	        troup.addTraitement(traitementRequest);
 	        return traitementRepo.save(traitementRequest);
 	      }).orElseThrow(() -> new ResourceNotFoundException("Not found Bovin with id = " + bovinid));
-		traitementLogService.traitIssue(new TraitementLog(null,bovinid,traitementRequest.getId(),"A déternimer"));
+		LocalDateTime createdAt = LocalDateTime.now(ZoneId.of("UTC"));
+		Traitement name=traitementRepo.findById(traitementRequest.getId()).orElseThrow(()->new ResourceNotFoundException("Treatment "+traitementRequest.getId()+" not found"));
+		log.info(name.getLibelle());
+		traitementLogService.traitIssue(new TraitementLog(null,bovinid,name.getLibelle(),"A déternimer",createdAt.toLocalDate().toString()));
 	    return new ResponseEntity<>(tag,HttpStatus.CREATED);
 	  }
 
