@@ -262,7 +262,7 @@ public class EmployeeController {
  * ASSIGN EMPLOYEE TO RANCH,TO CAMPEMENT,TO TROUPEAU: BEGIN		
  */
 		
-		@PostMapping("/employee/{employId}/troupeau")
+		@PostMapping("/employee/troupeau/{employId}")
 		  @PreAuthorize("hasRole('ADMIN') or hasRole('MODERATOR')")
 		  public ResponseEntity<Troupeau> assignEmployeeTroupeau(@PathVariable(value = "employId") Long employId, 
 				  @RequestBody Troupeau troupeauRequest	  ) {
