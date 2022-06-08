@@ -112,7 +112,7 @@ public class VaccinServiceImpl implements VaccinLogService,BovinLogService {
 	        return vaccinRepo.save(vaccinRequest);
 	      }).orElseThrow(() -> new ResourceNotFoundException("Not found bovin with id = " + bovinid));
 		 Employee logger=employeeRepository.findById(tag.getCreatedBy()).orElseThrow(()-> new ResourceNotFoundException("Person not found"));
-		saveBovinLog(new BovinLog(null,bovinid,"Received the "+tag.getName()+" vaccine ",logger.getFirstname()+" "+logger.getFirstname(),tag.getCreatedAt().toString()));
+		savebovinlog(new BovinLog(null,bovinid,"Received the "+tag.getName()+" vaccine ",logger.getFirstname()+" "+logger.getFirstname(),tag.getCreatedAt().toString()));
 	    return new ResponseEntity<>(tag,HttpStatus.CREATED);
 	  }
 
@@ -121,45 +121,9 @@ public class VaccinServiceImpl implements VaccinLogService,BovinLogService {
 		return vaccinLogRepo.save(vaccinLog);
 	}
 
-	@Override
-	public VaccinLog getVaccinLogByAction(String action) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public List<VaccinLog> getAllVaccinLog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Optional<VaccinLog> getVaccinLogByVaccinId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BovinLog saveBovinLog(BovinLog bovinLog) {
-		bovinLogRepo.save(bovinLog);
-		return null;
-	}
-
-	@Override
-	public BovinLog getBovinLogByAction(String action) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BovinLog> getAllBovinLog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Optional<BovinLog> getBovinLogByBovinId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public BovinLog savebovinlog(BovinLog bovinLog) {
+		return bovinLogRepo.save(bovinLog);
 	}
 }

@@ -1,19 +1,16 @@
 package cm.sherli.api.mycow.log.model;
 
-import java.util.Date;
+import cm.sherli.api.mycow.audit.AuditModel;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import cm.sherli.api.mycow.audit.AuditModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Entity
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BovinLog extends AuditModel {
@@ -23,5 +20,6 @@ public class BovinLog extends AuditModel {
 	private Long bovinid; 
 	private String action;
 	private String madeBy;
-	private String madeAt; 
+	private String madeAt;
+
 }

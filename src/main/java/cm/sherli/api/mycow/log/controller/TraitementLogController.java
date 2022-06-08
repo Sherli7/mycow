@@ -1,4 +1,4 @@
-package cm.sherli.api.mycow.log;
+package cm.sherli.api.mycow.log.controller;
 
 import cm.sherli.api.mycow.log.model.TraitementLog;
 import cm.sherli.api.mycow.log.services.TraitementLogImpl;

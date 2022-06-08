@@ -52,9 +52,8 @@ public class BovinService implements BovinLogService  {
 	 public ResponseEntity<Bovin> updateBovinStatus(long id,Bovin bovin,BovinLog log) {
 		    Bovin bov = bovinRepo.findById(id)
 		        .orElseThrow(() -> new ResourceNotFoundException("BovinId " + id + "not found"));
-			bov.setStatus(bovin.isStatus());
-			BovinLog logs=new BovinLog(null,id,"Update bovin status to "+bovin.isStatus(),log.getMadeBy(),log.getMadeAt());
-			//bovinLogRepo.save(logs);
+			bov.setStatus(bovin.getStatus());
+			bovinLogRepo.save(new BovinLog(null,id,"Update bovin status to "+bovin.getStatus(),log.getMadeBy(),log.getMadeAt()));
 		    return new ResponseEntity<>(bovinRepo.save(bov), HttpStatus.OK);
 	}
 	 
@@ -64,9 +63,9 @@ public class BovinService implements BovinLogService  {
 			if(!pages.hasContent()) {
 				throw new ResourceNotFoundException("This page is empty");
 			}
-			List<Bovin> ranch = pages.getContent();
+			List<Bovin> bovins = pages.getContent();
 		    Map<String, Object> response = new HashMap<>();
-		    response.put("bovins", ranch);
+		    response.put("bovins", bovins);
 		    response.put("currentPage", pages.getNumber());
 		    response.put("totalBovin", pages.getTotalElements());
 		    response.put("totalPages", pages.getTotalPages());		      
@@ -119,7 +118,7 @@ public class BovinService implements BovinLogService  {
 				bov.setHeightAtBirth(bovin.getHeightAtBirth());
 				bov.setWeightAtBirth(bovin.getWeightAtBirth());
 			    bov.setUpdatedAt(LocalDateTime.now());
-			    saveBovinLog(new BovinLog(null,bov.getBovinid(),"Update bovin","superadmin","01-01-2022"));
+			    savebovinlog(new BovinLog(null,bov.getBovinid(),"Update bovin","superadmin","01-01-2022"));
 			    return new ResponseEntity<>(bovinRepo.save(bov), HttpStatus.OK);
 	  }
 
@@ -166,38 +165,18 @@ public class BovinService implements BovinLogService  {
 	  }
 	  
 	  public ResponseEntity<List<Bovin>> findDeletedBovins() {
-		    List<Bovin> bovins = bovinRepo.findByIsDelete(true);
-		    if (bovins.isEmpty()) {
+		    List<Bovin> bovines = bovinRepo.findByIsDelete(true);
+		    if (bovines.isEmpty()) {
 		      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		    }	    
-		    return new ResponseEntity<>(bovins, HttpStatus.OK);
+		    return new ResponseEntity<>(bovines, HttpStatus.OK);
 		  }
 
 
 		@Override
-		public BovinLog saveBovinLog(BovinLog bovinLog) {
+		public BovinLog savebovinlog(BovinLog bovinLog) {
 			return bovinLogRepo.save(bovinLog);
 		}
-
-	@Override
-	public BovinLog getBovinLogByAction(String action) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BovinLog> getAllBovinLog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Optional<BovinLog> getBovinLogByBovinId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	 
 	
 
 	

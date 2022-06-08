@@ -18,9 +18,11 @@ import java.util.Objects;
 import java.util.Set;
 
 
+@SuppressWarnings("ALL")
 @Table(name = "bovins")
 @Entity
-@Data
+@Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,11 +48,9 @@ public class Bovin extends AuditModel{
 	private String race;
 	private String robe;
 	private String cornage;
-	private boolean status;
+	private String status;
 	private String country;
 	private boolean isDelete=false;
-	@Column(name = "estMalade")
-	private boolean sante;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "troupeauid", nullable = false)
@@ -121,6 +121,7 @@ public class Bovin extends AuditModel{
 		trait.getBovin().add(this);
 	}
 
+	@SuppressWarnings("unused")
 	public void addDisease(Disease mal) {
 		this.diseases.add(mal);
 		mal.getBovin().add(this);
@@ -129,9 +130,9 @@ public class Bovin extends AuditModel{
 
 	//REMOVE OPERATIONS: BEGIN
 	public void removeDisease(long diseaseId) {
-		Disease diseas = this.diseases.stream().filter(t -> t.getId() == diseaseId).findFirst().orElse(null);
-		if (diseas != null) this.diseases.remove(diseas);
-		diseas.getBovin().remove(this);
+		Disease disease = this.diseases.stream().filter(t -> t.getId() == diseaseId).findFirst().orElse(null);
+		if (disease != null) this.diseases.remove(disease);
+		disease.getBovin().remove(this);
 	}
 
 	public void removeTraitement(long traitId) {
@@ -150,16 +151,16 @@ public class Bovin extends AuditModel{
 		insem.getBovin().remove(this);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-		Bovin bovin = (Bovin) o;
-		return bovinid != null && Objects.equals(bovinid, bovin.bovinid);
-	}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Bovin bovin = (Bovin) o;
+        return bovinid != null && Objects.equals(bovinid, bovin.bovinid);
+    }
 
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -1,18 +1,17 @@
 package cm.sherli.api.mycow.audit;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -20,6 +19,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
         value = {"createdAt", "updatedAt"},
         allowGetters = true
 )
+@Getter
+@Setter
 public abstract class AuditModel implements Serializable {
 	
 	 /**
@@ -36,39 +37,8 @@ public abstract class AuditModel implements Serializable {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt = LocalDateTime.now(ZoneId.of("UTC"));
 
-    @Column(name = "created_By", nullable = true, updatable = false)
+    @Column(name = "created_By", updatable = false)
     private Long createdBy;
-    
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
 
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	/**
-	 * @return the createdBy
-	 */
-	public Long getCreatedBy() {
-		return createdBy;
-	}
-
-	/**
-	 * @param createdBy the createdBy to set
-	 */
-	public void setCreatedBy(Long createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	
-	
 }

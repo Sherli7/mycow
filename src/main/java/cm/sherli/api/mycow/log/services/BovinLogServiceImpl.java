@@ -8,25 +8,7 @@ import cm.sherli.api.mycow.log.model.BovinLog;
 public class BovinLogServiceImpl implements BovinLogService {
 
 	@Override
-	public BovinLog saveBovinLog(BovinLog bovinLog) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BovinLog getBovinLogByAction(String action) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<BovinLog> getAllBovinLog() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Optional<BovinLog> getBovinLogByBovinId(Long id) {
+	public BovinLog savebovinlog(BovinLog bovinLog) {
 		// TODO Auto-generated method stub
 		return null;
 	}

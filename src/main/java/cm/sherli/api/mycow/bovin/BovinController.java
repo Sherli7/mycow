@@ -37,11 +37,12 @@ public class BovinController {
 	private final TroupeauRepo troupRepo;
 	private final BovinService bovinService;
 
-
-	@GetMapping("/bovin/bovinid/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+	@GetMapping("/bovin/{id}")
 	public Bovin getBovinId(@PathVariable("id") long id){
 		return bovinService.findBybovinid(id);
 	}
+
 	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	@PutMapping("/bovin/status/{id}")
 	  public ResponseEntity<Bovin> updateBovinStatus(@PathVariable("id") long id, @RequestBody Bovin bovin,@RequestBody BovinLog bovinLog) {
@@ -167,8 +168,5 @@ public class BovinController {
 			      @RequestBody Bovin bovinRequest) {
 		return bovinService.createBovins(ranchid, troupid, campid, bovinRequest);
 	}
-	
-
-	  
 	
 }

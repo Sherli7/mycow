@@ -28,7 +28,7 @@ public class TraitementLogImpl implements TraitementService{
 
     @Override
     public TraitementLog traitIssue(TraitementLog issue) {
-
+        log.info("Issu du traitement mis à jour");
         return traitementLogRepo.save(issue);
     }
     public ResponseEntity<Map<String, Object>> getTraitementBovinLogPaged(Long id,Pageable page) {
