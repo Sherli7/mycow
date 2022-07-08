@@ -1,20 +1,26 @@
 package cm.sherli.api.mycow.controllers;
 
 import java.io.Console;
+import java.util.List;
 
+import cm.sherli.api.mycow.localisation.Department;
+import cm.sherli.api.mycow.localisation.DepartmentRepo;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
-  @GetMapping("/all")
-  public String allAccess() {
-    return "Public Content.";
+  private final DepartmentRepo departmentRepo;
+
+  public TestController(DepartmentRepo departmentRepo) {
+    this.departmentRepo = departmentRepo;
+  }
+
+  @GetMapping("/all/{id}")
+  public List<Department> allAccess(@PathVariable("id") int id) {
+    return departmentRepo.findByRegionId(id);
   }
 
   @GetMapping("/user")
